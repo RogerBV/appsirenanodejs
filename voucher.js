@@ -1,0 +1,6 @@
+class Voucher{
+    constructor(VoucherId)
+    {
+        
+    }
+}
