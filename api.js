@@ -37,8 +37,9 @@ router.route('/ConsultarEstadoCuentaProveedor').post((request,response)=>{
 router.route('/ConsultarReporteLibroCajaBancos').get((request,response)=>{
     const dFechaInicio = request.query.dFechaInicio;
     const dFechaFin = request.query.dFechaFin;
-    const banco = request.query.banco;
-    dboperations.ConsultarReporteLibroCajaBancos(banco,dFechaInicio,dFechaFin).then(result=>{
+    const sCtaNombre = request.query.sCtaNombre;
+    const sBanNombre = request.query.sBanNombre;
+    dboperations.ConsultarReporteLibroCajaBancos(sCtaNombre,sBanNombre,dFechaInicio,dFechaFin).then(result=>{
         response.json(result);
     });
 });

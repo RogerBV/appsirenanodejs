@@ -21,10 +21,10 @@ async function ConsultarEstadoCuentaProveedor(Periodo_Id,Mes_Id,Cuenta_Id){
     }
 }
 
-async function ConsultarReporteLibroCajaBancos(banco,dFechaInicio,dFechaFin){
+async function ConsultarReporteLibroCajaBancos(sCtaNombre,sBanNombre,dFechaInicio,dFechaFin){
     try{
         let pool = await sql.connect(config);
-        let vouchers = await pool.request().query("EXEC [RPT].[pa_ConsultarLibroCajaBancos] '"+dFechaInicio+"','"+ dFechaFin +"','BBVA Pmyo.Cta.291-23-0100006603','Banco  BBVA Continental',1,1,1,2 ");
+        let vouchers = await pool.request().query("EXEC [RPT].[pa_ConsultarLibroCajaBancos] '"+dFechaInicio+"','"+ dFechaFin +"','"+sCtaNombre+"','"+sBanNombre+"',1,1,1,2 ");
         return vouchers.recordset;
     }catch(error){
         console.log(error);
