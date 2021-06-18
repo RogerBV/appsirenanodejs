@@ -43,7 +43,7 @@ async function getCuentasContables(){
 async function getCuentasContablesProveedor(){
     try{
         let pool = await sql.connect(config);
-        let cuentasc = await pool.request().query("SELECT Cuenta_Id,sCtaCodigo FROM CTB.Cuenta WHERE nCtaEstado = 1 AND nCtaTipo = 1 AND (sCtaCodigo LIKE '42%' OR sCtaCodigo LIKE '43.%' OR sCtaCodigo LIKE '45%')  ");;
+        let cuentasc = await pool.request().query("SELECT Cuenta_Id,sCtaCodigo FROM CTB.Cuenta WHERE nCtaEstado = 1 AND nCtaTipo = 1 AND (sCtaCodigo LIKE '42%' OR sCtaCodigo LIKE '43.%' OR sCtaCodigo LIKE '45%' OR sCtaCodigo LIKE '46%')  ");;
         return cuentasc.recordset;
     }catch(error){
         console.log(error);
