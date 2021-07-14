@@ -1,6 +1,6 @@
 
 const dboperations = require('./dboperations');
-
+const configMySql = require('./dbConfigMySql');
 var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require ('cors');
@@ -73,6 +73,40 @@ router.route('/ConsultarBancos').get((request,response)=>{
         response.json(result);
     });
 });
+
+router.route('/registerPermit').post((request,response)=>{
+    try
+    {
+        var employeeName = request.query.employeeName;
+        var employeeSurname = request.query.employeeSurname;
+
+        configMySql.query('INSERT INTO permit SET ?', {EmployeeName: employeeName,EmployeeSurname:employeeSurname}, function(err, result, fields) {
+            if (err) throw err;
+            console.log(result.insertId);
+            configMySql.query("SELECT * FROM Permit where Id = "+result.insertId,function(err,result){
+                response.json(result[0]);
+            });
+          });
+
+    }catch(error)
+    {
+        console.log(error);
+    }
+})
+
+router.route('/getPermits').get((request,response)=>{
+    try{
+        console.log("Permits");
+        configMySql.query("SELECT * FROM Permit ",function(err,result){
+            response.json(result);
+        });
+         
+    }catch(error){
+        console.log(error);
+    }
+
+
+})
 
 var port = process.env.PORT || 8090;
 app.listen(port);

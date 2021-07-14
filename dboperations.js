@@ -1,4 +1,5 @@
 var config = require('./dbconfig');
+var configMySql = require('./dbConfigMySql');
 const sql = require('mssql');
 
 async function ConsultarValidadorDiferenciasCuentasProveedor(Cuenta_Id,Periodo_Id){
@@ -81,6 +82,22 @@ async function ConsultarBancos(Empresa_Id,Estado)
     }
 }
 
+async function getPermits()
+{
+    try{
+        var permits = '';
+        configMySql.query("SELECT * FROM Permit ",function(err,result){
+            permits = result;
+            console.log(result);
+        });
+        console.log(permits);
+        console.log("Permits");
+         
+    }catch(error){
+        console.log(error);
+    }
+}
+
 module.exports = {
     ConsultarValidadorDiferenciasCuentasProveedor:ConsultarValidadorDiferenciasCuentasProveedor,
     getCuentasContables:getCuentasContables,
@@ -89,5 +106,6 @@ module.exports = {
     ConsultarEstadoCuentaProveedor:ConsultarEstadoCuentaProveedor,
     ConsultarReporteLibroCajaBancos:ConsultarReporteLibroCajaBancos,
     getTipoGeneral:getTipoGeneral,
-    ConsultarBancos:ConsultarBancos
+    ConsultarBancos:ConsultarBancos,
+    getPermits:getPermits
 }
