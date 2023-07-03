@@ -4,6 +4,7 @@ const configMySql = require('./dbConfigMySql');
 var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require ('cors');
+const { request } = require('express');
 var app = express();
 
 var router = express.Router();
@@ -104,8 +105,45 @@ router.route('/getPermits').get((request,response)=>{
     }catch(error){
         console.log(error);
     }
+})
 
 
+router.route('/updatePermit').post((request,response)=>{
+    try{
+        var idPermit = request.query.idPermit
+        var employeeName = request.query.employeeName
+        var employeeSurname = request.query.employeeSurname
+
+        var sql = "UPDATE Permit SET EmployeeName = ?, EmployeeSurname = ? WHERE Id = ? "
+
+        configMySql.query(sql, [employeeName, employeeSurname, idPermit], function(err, result){
+            if (err) throw err;
+            configMySql.query("SELECT * FROM Permit where Id = "+result.insertId,function(err,result){
+                console.log(result[0]);
+                response.json(result[0]);
+            });
+        })
+    }catch(error){
+        console.log(error)
+    }
+})
+
+router.route('/insertPermit').post((request,response)=>{
+    try{
+        var employeeName = request.query.employeeName
+        var employeeSurname = request.query.employeeSurname
+        configMySql.query('INSERT INTO permit SET ?', {EmployeeName: employeeName,EmployeeSurname:employeeSurname}, function(err, result, fields) {
+            if (err) throw err;
+            console.log(result.insertId);
+            configMySql.query("SELECT * FROM Permit where Id = "+result.insertId,function(err,result){
+                console.log(result[0]);
+                response.json(result[0]);
+            });
+          });
+
+    }catch(error){
+        console.log(error);
+    }
 })
 
 var port = process.env.PORT || 8090;
